@@ -1,9 +1,9 @@
 ---
 # Name of your project, will also be the vagrant box name
-project_name: "example"
+project_name: "omnomhub"
 
 # Main hostname through which the vagrant box will be accessible
-hostname: "example.lo"
+hostname: "omnomhub.lo"
 # Alternative hostnames through which you want to access the vagrant box
 hostnames: []
 
@@ -13,20 +13,22 @@ forwarded_ports: {
     "80": "8080",    # HTTP
     "443": "8443",   # HTTPS
     "3000": "3000",  # BrowserSync default port
+    "7474": "7474",  # Neo4j
 }
 
 # By default Vagrant managed different IPs for all boxes. But you can force it
 # here if you want. WARNING, this parameter will not guarantee that your box
 # will be accessible at this IP depending on your network configuration or
 # provider choice.
-# box_ip: "10.10.10.10"
-
-# Name of the database to create for your project if you include the
-# MySQL or PostgreSQL role
-database_name: "example"
+box_ip: "10.10.13.37"
 
 # Root directory of your project for the webserver and other purposes
-root_directory: "/vagrant/"
+root_directory: "/vagrant/public/"
+
+php_version: 7.2
+
+box_name: "drifter/trusty64-php7"
+box_url: "https://vagrantbox-public.liip.ch/drifter.json"
 
 # Synced folder type to use. Only "nfs" and "virtualbox" are supported by
 # drifter. Defaults to "nfs". Uncomment the following line to use the
@@ -66,5 +68,5 @@ root_directory: "/vagrant/"
 # Default Java version is 7. If you need another java version, uncomment
 # the matching line and set the correct value.
 # Set your version according to your needs and your Linux distribution.
-# java_jre_version: "7"
-# java_jdk_version: "7"
+java_jre_version: "8"
+java_jdk_version: "8"

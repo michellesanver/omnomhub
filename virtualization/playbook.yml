@@ -16,7 +16,17 @@
     ## Install some base packages and configuration files, this should be ok for all projects
     - { role: base }
     - { role: git }
+    - { role: php-fpm,  nginx_site_template: "symfony4-site.j2" }
+    - { role: composer }
+    - { role: ssh }
 
+# If needed, you can specify your own tasks, here is an example :
+  tasks:
+    - name: composer install
+      shell: composer.phar install
+      args:
+        chdir: /vagrant/
+        creates: vendor
     ## Database, choose either mysql or postgres, some subsequent roles will be configured
     ## depending on your choice here.
     # - { role: mysql }
