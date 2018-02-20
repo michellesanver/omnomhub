@@ -1,0 +1,46 @@
+- name: Add Oracle Java repository
+  action: apt_repository repo='ppa:webupd8team/java' update_cache=yes
+  sudo: yes
+
+- name: Accept Java 8 License
+  sudo: yes
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+- name: Neo4j Repository Signing Key
+  action: apt_key url=https://debian.neo4j.org/neotechnology.gpg.key state=present
+  sudo: yes
+
+- name: Add Neo4j Repository
+  action: apt_repository repo='deb https://debian.neo4j.org/repo stable/' update_cache=yes
+  sudo: yes
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  sudo: yes
+  apt:
+    update_cache: yes
+
+- name: Install Oracle Java 8
+  sudo: yes
+  apt: name={{item}} state=latest
+  with_items:
+    - oracle-java8-installer
+    - ca-certificates
+    - oracle-java8-set-default
+
+- name: Ensure neo4j is installed
+  sudo: yes
+  apt:
+    name: neo4j=3.3.1
+    state: installed
+
+- name: Update /etc/neo4j/neo4j.conf to enable remote users to login to neo4j
+  sudo: yes
+  lineinfile: dest=/etc/neo4j/neo4j.conf
+              regexp="^dbms.connectors.default_listen_address=0.0.0.0"
+              insertafter='^#dbms.connectors.default_listen_address=0.0.0.0'
+              line="dbms.connectors.default_listen_address=0.0.0.0"
+              state=present
+
+- name: restart neo4j
+  service: name=neo4j state=restarted
+  sudo: yes

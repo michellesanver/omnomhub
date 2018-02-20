@@ -11,9 +11,8 @@ hostnames: []
 # for details.
 forwarded_ports: {
     "80": "8080",    # HTTP
-    "443": "8443",   # HTTPS
-    "3000": "3000",  # BrowserSync default port
     "7474": "7474",  # Neo4j
+    "7687": "7687"   # Neo4j Bolt
 }
 
 # By default Vagrant managed different IPs for all boxes. But you can force it
